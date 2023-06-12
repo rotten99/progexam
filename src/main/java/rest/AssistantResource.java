@@ -37,7 +37,6 @@ public class AssistantResource {
     public Response createAssistant(String assistant) {
         WashingAssistantDTO assistantDTO = GSON.fromJson(assistant, WashingAssistantDTO.class);
         WashingAssistantDTO createdAssistant = FACADE.createNewWashingAssistant(assistantDTO);
-        System.out.println(createdAssistant+" created");
         return Response.ok().entity(GSON.toJson(createdAssistant)).build();
     }
 

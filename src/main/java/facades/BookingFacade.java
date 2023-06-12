@@ -116,5 +116,20 @@ public class BookingFacade {
         return new BookingDTO(booking);
     }
 
+    //This method updates the user and/or car for the booking
+    public BookingDTO updateBookingUserAndCar(int id, User user, Car car){
+        EntityManager em = emf.createEntityManager();
+        Booking booking = em.find(Booking.class, id);
+        try{
+            em.getTransaction().begin();
+            booking.setUser(user);
+            booking.setCar(car);
+            em.getTransaction().commit();
+        }finally{
+            em.close();
+        }
+        return new BookingDTO(booking);
+    }
+
 
 }

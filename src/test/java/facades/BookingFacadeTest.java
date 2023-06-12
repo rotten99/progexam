@@ -116,5 +116,14 @@ public void testUpdateBookingAssistant() throws Exception {
         assertEquals(1, booking.getWashingAssistants().size(), "Expects one row in the database");
         }
 
+    //This tests the updateBookingUserAndCar method
+    @Test
+    public void testUpdateBookingUserAndCar() throws Exception {
+        facade.updateBookingUserAndCar(booking1.getId(), user2, car2);
+        EntityManager em = emf.createEntityManager();
+        Booking booking = em.find(Booking.class, booking1.getId());
+        assertEquals("user2", booking.getUser().getUserName(), "Expects user2 to be the user");
+        assertEquals("xw56804", booking.getCar().getRegistrationNumber(), "Expects xw56804 to be the license plate");
+    }
 
 }
