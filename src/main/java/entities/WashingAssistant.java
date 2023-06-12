@@ -12,7 +12,7 @@ import java.util.List;
 public class WashingAssistant {
 
     @Id
-    @Column(name = "name", nullable = false, unique = true, length = 50)
+    @Column(name = "name", nullable = false, length = 50)
     private String name;
 
     @Column(name = "primary_language", nullable = false, length = 25)

@@ -1,5 +1,6 @@
 package rest;
 
+import entities.Booking;
 import entities.Role;
 import entities.User;
 import entities.WashingAssistant;
@@ -71,6 +72,9 @@ public class AssistantResourceTest {
 
         w1 = new WashingAssistant("Hans", "Danish", 2, 100.00);
         w2 = new WashingAssistant("Jens", "Danish", 6, 120.00);
+        List<Booking> bookings = new ArrayList<>();
+        w1.setBookings(bookings);
+        w2.setBookings(bookings);
         try {
             em.getTransaction().begin();
             em.createNamedQuery("WashingAssistant.deleteAll").executeUpdate();
@@ -87,13 +91,30 @@ public class AssistantResourceTest {
     }
 
     //This test, tests the get all users method in the UserResource class
-//    @Test
-//    public void getAllAssistants() throws Exception {
-//        given()
-//                .contentType("application/json")
-//                .get("/assistants/all").then()
-//                .assertThat()
-//                .statusCode(HttpStatus.OK_200.getStatusCode())
-//                .body("size()", equalTo(2));
-//    }
+    @Test
+    public void getAllAssistants() throws Exception {
+        given()
+                .contentType("application/json")
+                .get("/assistant/all").then()
+                .assertThat()
+                .statusCode(HttpStatus.OK_200.getStatusCode())
+                .body("size()", equalTo(2));
+    }
+
+    //This tests the create assistant method in the AssistantResource class
+    @Test
+    public void createAssistant(){
+        given()
+                .contentType("application/json")
+                .body(new WashingAssistant("Peter", "Danish", 6, 120.00))
+                .when()
+                .post("/assistant/create")
+                .then()
+                .body("name", equalTo("Peter"))
+                .body("primaryLanguage", equalTo("Danish"))
+                .body("yearsOfExperience", equalTo(6))
+                .body("pricePrHour", equalTo(120.00f));
+    }
+
+
 }

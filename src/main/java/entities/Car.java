@@ -13,7 +13,7 @@ public class Car {
 
 
     @Id
-    @Column(name = "registration_number", nullable = false, unique = true, length = 15)
+    @Column(name = "registration_number", nullable = false, length = 15)
     private String registrationNumber;
 
     @Column(name = "brand", nullable = false, length = 25)

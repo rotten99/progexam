@@ -14,13 +14,15 @@ public class WashingAssistantDTO {
 
     private List<String> bookings = new ArrayList<>();
 
-    public WashingAssistantDTO(WashingAssistant wa){
+    public WashingAssistantDTO(WashingAssistant wa) {
         this.name = wa.getName();
         this.primaryLanguage = wa.getPrimaryLanguage();
         this.yearsOfExperience = wa.getYearsOfExperience();
         this.pricePrHour = wa.getPricePrHour();
-        for(Booking booking : wa.getBookings()) {
-            this.bookings.add(booking.toString());
+        if (wa.getBookings().size() > 0) {
+            for (Booking booking : wa.getBookings()) {
+                this.bookings.add(booking.toString());
+            }
         }
     }
 
@@ -69,5 +71,16 @@ public class WashingAssistantDTO {
 
     public void setBookings(List<String> bookings) {
         this.bookings = bookings;
+    }
+
+    @Override
+    public String toString() {
+        return "WashingAssistantDTO{" +
+                "name='" + name + '\'' +
+                ", primaryLanguage='" + primaryLanguage + '\'' +
+                ", yearsOfExperience=" + yearsOfExperience +
+                ", pricePrHour=" + pricePrHour +
+                ", bookings=" + bookings +
+                '}';
     }
 }

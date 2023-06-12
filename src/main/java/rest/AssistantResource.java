@@ -21,7 +21,7 @@ public class AssistantResource {
 
     //This is the endpoint for getting all assistants
     @GET
-    @RolesAllowed("user")
+//    @RolesAllowed("user")
     @Path("all")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAllAssistants() {
@@ -30,13 +30,15 @@ public class AssistantResource {
 
     //This is the endpoint for creating a new assistant
     @POST
-    @RolesAllowed("admin")
+//    @RolesAllowed("admin")
     @Path("create")
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
     public Response createAssistant(String assistant) {
         WashingAssistantDTO assistantDTO = GSON.fromJson(assistant, WashingAssistantDTO.class);
-        return Response.ok().entity(GSON.toJson(FACADE.createNewWashingAssistant(assistantDTO))).build();
+        WashingAssistantDTO createdAssistant = FACADE.createNewWashingAssistant(assistantDTO);
+        System.out.println(createdAssistant+" created");
+        return Response.ok().entity(GSON.toJson(createdAssistant)).build();
     }
 
 }
