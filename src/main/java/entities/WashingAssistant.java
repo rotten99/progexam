@@ -24,7 +24,7 @@ public class WashingAssistant {
     @Column(name = "price_pr_hour", nullable = false)
     private Double pricePrHour;
 
-    @ManyToMany(mappedBy = "washingAssistants")
+    @ManyToMany(mappedBy = "washingAssistants" , cascade = CascadeType.REMOVE)
     private List<Booking> bookings = new ArrayList<>();
 
     public List<Booking> getBookings() {
@@ -84,5 +84,17 @@ public class WashingAssistant {
         this.primaryLanguage = primaryLanguage;
         this.yearsOfExperience = yearsOfExperience;
         this.pricePrHour = pricePrHour;
+    }
+
+    public void addBooking(Booking booking) {
+        this.bookings.add(booking);
+    }
+
+    public void removeBooking(Booking booking) {
+        this.bookings.remove(booking);
+    }
+
+    public void clearAll() {
+        this.bookings.clear();
     }
 }

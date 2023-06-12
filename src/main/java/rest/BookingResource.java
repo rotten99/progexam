@@ -29,7 +29,7 @@ public class BookingResource {
     @GET
     @Path("all")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getAllAssistants() {
+    public Response getAllBookings() {
         return Response.ok().entity(GSON.toJson(FACADE.getAllBookings())).build();
     }
 
@@ -76,7 +76,7 @@ public class BookingResource {
     public Response updateBookingExpanded(@PathParam("id") int id, String booking) {
         EntityManager em = EMF.createEntityManager();
         BookingDTO bookingDTO = GSON.fromJson(booking, BookingDTO.class);
-        User user = em.find(User.class, bookingDTO.getUser().getUserName());
+        User user = em.find(User.class, bookingDTO.getUserName());
         Car car = em.find(Car.class, bookingDTO.getCar().getRegistrationNumber());
         BookingDTO updatedBooking = FACADE.updateBookingUserAndCar(id, user, car);
         return Response.ok().entity(GSON.toJson(updatedBooking)).build();

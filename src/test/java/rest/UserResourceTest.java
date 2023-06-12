@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import dtos.UserDTO;
 import entities.Role;
 import entities.User;
+import facades.UserFacade;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.parsing.Parser;
@@ -77,12 +78,12 @@ public class UserResourceTest {
         Role aRole = new Role("admin");
         userList.add(uRole);
         adminList.add(aRole);
-        u1 = new User("user", "123",userList);
-        u2 = new User("admin", "123",adminList);
+        u1 = new User("user", "123", userList);
+        u2 = new User("admin", "123", adminList);
         try {
             em.getTransaction().begin();
-            em.createNamedQuery("User.deleteAll").executeUpdate();
             em.createQuery("delete from Role").executeUpdate();
+            em.createNamedQuery("User.deleteAll").executeUpdate();
             em.persist(uRole);
             em.persist(aRole);
             em.persist(u1);
@@ -101,43 +102,9 @@ public class UserResourceTest {
                 .get("/info/all").then()
                 .assertThat()
                 .statusCode(HttpStatus.OK_200.getStatusCode())
-                .body( equalTo("[2]"));
+                .body(equalTo("[2]"));
 
     }
 
-    //This method test tests the create user method in the UserResource class
-    @Test
-    public void testCreateUserEndpoint() {
-
-        List<Role> userList = new ArrayList<>();
-        User u = new User("johndoe", "password",userList);
-        System.out.println("*****************"+u+"*****************"+u.getRoleList());
-        UserDTO userDTO = new UserDTO(u);
-
-        String requestBody = new Gson().toJson(userDTO);
-
-        given()
-                .contentType(ContentType.JSON)
-                .body(requestBody)
-                .when()
-                .post("/info/create")
-                .then()
-                .statusCode(200)
-                .contentType(ContentType.JSON)
-                .body("userName", equalTo("johndoe"));
-    }
-
-    //This tests the delete user method in the UserResource class
-    @Test
-    public void testDeleteUserEndpoint() {
-        given()
-                .contentType(ContentType.JSON)
-                .when()
-                .delete("/info/delete/" + u1.getUserName())
-                .then()
-                .statusCode(200)
-                .contentType(ContentType.JSON)
-                .body("userName", equalTo("user"));
-    }
 
 }

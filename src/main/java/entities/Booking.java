@@ -17,7 +17,7 @@ public class Booking {
     private Integer id;
 
     @Column(name = "date_and_time", nullable = false)
-    private LocalDateTime dateAndTime;
+    private String dateAndTime;
 
     @Column(name = "duration", nullable = false)
     private Integer duration;
@@ -70,11 +70,11 @@ public class Booking {
         this.duration = duration;
     }
 
-    public LocalDateTime getDateAndTime() {
+    public String getDateAndTime() {
         return dateAndTime;
     }
 
-    public void setDateAndTime(LocalDateTime dateAndTime) {
+    public void setDateAndTime(String dateAndTime) {
         this.dateAndTime = dateAndTime;
     }
 
@@ -90,13 +90,14 @@ public class Booking {
     public Booking() {
     }
 
-    public Booking(LocalDateTime dateAndTime, Integer duration, List<WashingAssistant> washingAssistants, Car car, User user) {
+    public Booking(String dateAndTime, Integer duration, List<WashingAssistant> washingAssistants, Car car, User user) {
         this.dateAndTime = dateAndTime;
         this.duration = duration;
         this.washingAssistants = washingAssistants;
         this.user = user;
         this.car = car;
     }
+
 
     @Override
     public String toString() {
@@ -106,4 +107,6 @@ public class Booking {
                 "user = " + user + ", " +
                 "car = " + car + ")";
     }
+
+
 }

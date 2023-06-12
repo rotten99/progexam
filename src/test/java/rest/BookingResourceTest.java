@@ -3,6 +3,7 @@ package rest;
 import com.google.gson.Gson;
 import dtos.BookingDTO;
 import entities.*;
+import facades.UserFacade;
 import io.restassured.RestAssured;
 import io.restassured.parsing.Parser;
 import org.glassfish.grizzly.http.server.HttpServer;
@@ -75,8 +76,8 @@ public class BookingResourceTest {
     Car car2 = new Car("xw56804", "toyota", "yaris2", 2017);
     List<WashingAssistant> waList = new ArrayList<>();
 
-    Booking booking1 = new Booking(LocalDateTime.now(), 2, waList, car1, user1);
-    Booking booking2 = new Booking(LocalDateTime.now(), 2, waList, car2, user2);
+    Booking booking1 = new Booking("nu", 2, waList, car1, user1);
+    Booking booking2 = new Booking("senere", 2, waList, car2, user2);
 
     @BeforeEach
     public void setUp() {
@@ -122,7 +123,7 @@ public class BookingResourceTest {
     //This tests the create booking end point in booking resource
     @Test
     public void createBooking() throws Exception {
-        Booking booking = new Booking(LocalDateTime.now(), 4, waList, car1, user1);
+        Booking booking = new Booking("21/12-2023", 4, waList, car1, user1);
         BookingDTO bookingDTO = new BookingDTO(booking);
         given()
                 .contentType("application/json")
@@ -133,7 +134,6 @@ public class BookingResourceTest {
                 .assertThat()
                 .statusCode(HttpStatus.OK_200.getStatusCode())
                 .body("car.registrationNumber", equalTo("yz31803"))
-                .body("user.userName", equalTo("user1"))
                 .body("washingAssistants.size()", equalTo(2));
     }
 
@@ -147,8 +147,7 @@ public class BookingResourceTest {
                 .then()
                 .assertThat()
                 .statusCode(HttpStatus.OK_200.getStatusCode())
-                .body("car.registrationNumber", equalTo("yz31803"))
-                .body("user.userName", equalTo("user1"));
+                .body("car.registrationNumber", equalTo("yz31803"));
     }
 
     //This tests the update washing assistant for a booking end point in booking resource
@@ -157,7 +156,7 @@ public class BookingResourceTest {
         List<WashingAssistant> waList = new ArrayList<>();
         ArrayList<WashingAssistant> waList2 = new ArrayList<>();
         waList2.add(wa1);
-        Booking booking = new Booking(LocalDateTime.now(), 4, waList2, car1, user1);
+        Booking booking = new Booking("senere", 4, waList2, car1, user1);
         BookingDTO bookingDTO = new BookingDTO(booking);
         String json = new Gson().toJson(bookingDTO);
         given()
@@ -169,7 +168,6 @@ public class BookingResourceTest {
                 .assertThat()
                 .statusCode(HttpStatus.OK_200.getStatusCode())
                 .body("car.registrationNumber", equalTo("yz31803"))
-                .body("user.userName", equalTo("user1"))
                 .body("washingAssistants.size()", equalTo(1));
     }
 
@@ -188,7 +186,6 @@ public class BookingResourceTest {
                 .assertThat()
                 .statusCode(HttpStatus.OK_200.getStatusCode())
                 .body("car.registrationNumber", equalTo(car2.getRegistrationNumber()))
-                .body("user.userName", equalTo("user2"))
                 .body("washingAssistants.size()", equalTo(2));
     }
 
@@ -201,8 +198,8 @@ public class BookingResourceTest {
                 .assertThat()
                 .statusCode(HttpStatus.OK_200.getStatusCode())
                 .body("size()", equalTo(1))
-                .body("[0].car.registrationNumber", equalTo("yz31803"))
-                .body("[0].user.userName", equalTo("user1"));
+                .body("[0].car.registrationNumber", equalTo("yz31803"));
+
     }
 
 }

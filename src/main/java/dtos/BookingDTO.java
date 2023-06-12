@@ -3,19 +3,18 @@ package dtos;
 import entities.Booking;
 import entities.WashingAssistant;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 public class BookingDTO {
     private Integer id;
-    private LocalDateTime dateAndTime;
+    private String dateAndTime;
     private Integer duration;
     private List<WashingAssistantDTO> washingAssistants = new ArrayList<>();
 
     private CarDTO car;
 
-    private UserDTO user;
+    private String userName;
 
     public BookingDTO(Booking booking) {
         this.id = booking.getId();
@@ -25,22 +24,22 @@ public class BookingDTO {
             this.washingAssistants.add(new WashingAssistantDTO(washingAssistant));
         }
         this.car = new CarDTO(booking.getCar());
-        this.user = new UserDTO(booking.getUser());
+        this.userName = booking.getUser().getUserName();
     }
 
-    public BookingDTO(LocalDateTime dateAndTime, Integer duration, List<WashingAssistantDTO> washingAssistants, CarDTO car, UserDTO user) {
+    public BookingDTO(String dateAndTime, Integer duration, List<WashingAssistantDTO> washingAssistants, CarDTO car,String userName) {
         this.dateAndTime = dateAndTime;
         this.duration = duration;
         this.washingAssistants = washingAssistants;
         this.car = car;
-        this.user = user;
+        this.userName = userName;
     }
 
-    public LocalDateTime getDateAndTime() {
+    public String getDateAndTime() {
         return dateAndTime;
     }
 
-    public void setDateAndTime(LocalDateTime dateAndTime) {
+    public void setDateAndTime(String dateAndTime) {
         this.dateAndTime = dateAndTime;
     }
 
@@ -68,11 +67,11 @@ public class BookingDTO {
         this.car = car;
     }
 
-    public UserDTO getUser() {
-        return user;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setUser(UserDTO user) {
-        this.user = user;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 }

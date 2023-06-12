@@ -20,16 +20,16 @@ public class BookingFacadeTest {
 
     private Role userRole = new Role("user");
     private List<Role> roles = new ArrayList<>();
-    private User user1 = new User("user1", "test123",roles);
-    private User user2 = new User("user2", "test123",roles);
+    private User user1 = new User("user1", "test123", roles);
+    private User user2 = new User("user2", "test123", roles);
     private WashingAssistant wa1 = new WashingAssistant("Hans", "Danish", 2, 100.00);
     private WashingAssistant wa2 = new WashingAssistant("Jens", "Danish", 2, 150.50);
-    private Car car1 = new Car("yz31803","toyota","yaris",2010);
-    private Car car2 = new Car("xw56804","toyota","yaris2",2017);
+    private Car car1 = new Car("yz31803", "toyota", "yaris", 2010);
+    private Car car2 = new Car("xw56804", "toyota", "yaris2", 2017);
     private List<WashingAssistant> waList = new ArrayList<>();
 
-    private Booking booking1 = new Booking(LocalDateTime.now(),2,waList,car1,user1);
-    private Booking booking2 = new Booking(LocalDateTime.now(),2,waList,car2,user2);
+    private Booking booking1 = new Booking("I dag", 2, waList, car1, user1);
+    private Booking booking2 = new Booking("i morgen", 2, waList, car2, user2);
 
     public BookingFacadeTest() {
     }
@@ -53,11 +53,16 @@ public class BookingFacadeTest {
 
         try {
             em.getTransaction().begin();
-            em.createNamedQuery("WashingAssistant.deleteAll").executeUpdate();
+
+            // Delete bookings first to avoid integrity constraint violation
             em.createNamedQuery("Booking.deleteAll").executeUpdate();
+
+            // Delete other entities
             em.createNamedQuery("Car.deleteAll").executeUpdate();
+            em.createNamedQuery("WashingAssistant.deleteAll").executeUpdate();
             em.createNamedQuery("Role.deleteAll").executeUpdate();
             em.createNamedQuery("User.deleteAll").executeUpdate();
+
             em.persist(userRole);
             em.persist(user1);
             em.persist(user2);
@@ -77,6 +82,7 @@ public class BookingFacadeTest {
     }
 
 
+
     @AfterEach
     public void tearDown() {
 //        Remove any data after each test was run
@@ -94,7 +100,7 @@ public class BookingFacadeTest {
     @Test
     public void testCreateBooking() throws Exception {
         EntityManager em = emf.createEntityManager();
-        Booking booking3 = new Booking(LocalDateTime.now(),2,waList,new Car("xu56374", "toyota", "yaris", 1999),user1);
+        Booking booking3 = new Booking("nu", 2, waList, new Car("xu56374", "toyota", "yaris", 1999), user1);
         facade.createNewBooking(new BookingDTO(booking3));
         assertEquals(3, facade.getAllBookings().size(), "Expects three rows in the database");
     }
@@ -102,20 +108,20 @@ public class BookingFacadeTest {
     //This tests the deleteBooking method
     @Test
     public void testDeleteBooking() throws Exception {
-        System.out.println(facade.getAllBookings().size()+"*****************************");
+        System.out.println(facade.getAllBookings().size() + "*****************************");
         facade.deleteBooking(booking1.getId());
         assertEquals(1, facade.getAllBookings().size(), "Expects one row in the database");
     }
 
     //This tests the updateBookingAssistant method
     @Test
-public void testUpdateBookingAssistant() throws Exception {
+    public void testUpdateBookingAssistant() throws Exception {
         waList.remove(wa1);
         facade.updateBookingAssistants(booking1.getId(), waList);
         EntityManager em = emf.createEntityManager();
         Booking booking = em.find(Booking.class, booking1.getId());
         assertEquals(1, booking.getWashingAssistants().size(), "Expects one row in the database");
-        }
+    }
 
     //This tests the updateBookingUserAndCar method
     @Test

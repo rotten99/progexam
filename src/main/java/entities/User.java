@@ -10,8 +10,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@NamedQuery(name = "User.deleteAll", query = "DELETE from User ")
 @Table(name = "users")
+@NamedQueries({
+        @NamedQuery(name = "User.deleteAll", query = "delete from User u")
+})
 public class User implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -25,13 +27,13 @@ public class User implements Serializable {
   @Size(min = 1, max = 255)
   @Column(name = "user_pass")
   private String userPass;
+  @ManyToMany(cascade = CascadeType.REMOVE)
   @JoinTable(name = "user_roles", joinColumns = {
-    @JoinColumn(name = "user_name", referencedColumnName = "user_name")}, inverseJoinColumns = {
-    @JoinColumn(name = "role_name", referencedColumnName = "role_name")})
-  @ManyToMany
+          @JoinColumn(name = "user_name", referencedColumnName = "user_name")}, inverseJoinColumns = {
+          @JoinColumn(name = "role_name", referencedColumnName = "role_name")})
   private List<Role> roleList = new ArrayList<>();
 
-  @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST, orphanRemoval = true)
+  @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, orphanRemoval = true)
   private List<Booking> bookings = new ArrayList<>();
 
   public List<Booking> getBookings() {

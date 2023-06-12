@@ -25,7 +25,7 @@ public class Car {
     @Column(name = "year", nullable = false)
     private Integer year;
 
-    @OneToMany(mappedBy = "car", orphanRemoval = true)
+    @OneToMany(mappedBy = "car", orphanRemoval = true, cascade = CascadeType.REMOVE)
     private List<Booking> bookings = new ArrayList<>();
 
     public List<Booking> getBookings() {
@@ -77,7 +77,6 @@ public class Car {
         this.make = make;
         this.year = year;
     }
-
 
 
 

@@ -70,7 +70,8 @@ public class BookingFacade {
             System.out.println("Car not found");
         }
 
-        User user = em.find(User.class, b.getUser().getUserName());
+        System.out.println("User: " + b.getUserName()+"***************************");
+        User user = em.find(User.class, b.getUserName());
 
 
         try{

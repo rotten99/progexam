@@ -1,13 +1,10 @@
 package facades;
 
 import dtos.UserDTO;
-import entities.Role;
-import entities.User;
+import entities.*;
 import security.errorhandling.AuthenticationException;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.TypedQuery;
+import javax.persistence.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,7 +20,6 @@ public class UserFacade {
     }
 
     /**
-     *
      * @param _emf
      * @return the instance of this facade.
      */
@@ -34,6 +30,7 @@ public class UserFacade {
         }
         return instance;
     }
+
     private EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
@@ -52,9 +49,9 @@ public class UserFacade {
         return user;
     }
 
-    public UserDTO create(UserDTO udto){
-        List<Role> roleList = udto.getRoleList().stream().map(r -> new Role(r.getRoleName()) ).collect(Collectors.toList());
-        User u = new User(udto.getUserName(), udto.getUserPass(),roleList);
+    public UserDTO create(UserDTO udto) {
+        List<Role> roleList = udto.getRoleList().stream().map(r -> new Role(r.getRoleName())).collect(Collectors.toList());
+        User u = new User(udto.getUserName(), udto.getUserPass(), roleList);
         EntityManager em = getEntityManager();
         try {
             em.getTransaction().begin();
@@ -67,7 +64,7 @@ public class UserFacade {
     }
 
     //this method deletes a user
-    public UserDTO delete(String username){
+    public UserDTO delete(String username) {
         EntityManager em = getEntityManager();
         User u = em.find(User.class, username);
         try {
@@ -79,7 +76,8 @@ public class UserFacade {
         }
         return new UserDTO(u);
     }
-    public List<UserDTO> getAll(){
+
+    public List<UserDTO> getAll() {
         EntityManager em = emf.createEntityManager();
         TypedQuery<User> query = em.createQuery("SELECT u FROM User u", User.class);
         List<User> persons = query.getResultList();
@@ -90,5 +88,11 @@ public class UserFacade {
 
 
 
-
 }
+
+
+
+
+
+
+

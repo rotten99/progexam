@@ -4,6 +4,7 @@ import entities.Booking;
 import entities.Role;
 import entities.User;
 import entities.WashingAssistant;
+import facades.UserFacade;
 import io.restassured.RestAssured;
 import io.restassured.parsing.Parser;
 import org.glassfish.grizzly.http.server.HttpServer;

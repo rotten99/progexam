@@ -19,6 +19,10 @@ public class UserDTO {
 
     }
 
+    public UserDTO(String userName) {
+        this.userName = userName;
+    }
+
     public static List<UserDTO> getDtos(List<User> persons) {
         return persons.stream().map(p -> new UserDTO(p)).collect(Collectors.toList());
     }
