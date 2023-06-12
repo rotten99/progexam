@@ -210,4 +210,16 @@ public class BookingResourceTest {
                 .body("size()", equalTo(2));
     }
 
+    //This tests the delete booking endpoint for when it fails
+    @Test
+    public void deleteBookingFail() throws Exception {
+        given()
+                .contentType("application/json")
+                .when()
+                .delete("/booking/delete/" + 10000)
+                .then()
+                .assertThat()
+                .statusCode(400);
+    }
+
 }

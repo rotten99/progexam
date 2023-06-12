@@ -39,9 +39,13 @@ public class BookingResource {
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
     public Response createBooking(String booking) {
+        try{
         BookingDTO bookingDTO = GSON.fromJson(booking, BookingDTO.class);
         BookingDTO createdBooking = FACADE.createNewBooking(bookingDTO);
-        return Response.ok().entity(GSON.toJson(createdBooking)).build();
+        return Response.ok().entity(GSON.toJson(createdBooking)).build();}
+        catch (Exception e){
+            return Response.status(400).entity("{\"msg\":\"the server cannot or will not process the request due to something that is perceived to be a client error\"").build();
+        }
     }
 
     //This endpoint is for deleting a booking
@@ -49,8 +53,12 @@ public class BookingResource {
     @Path("delete/{id}")
     @Produces({MediaType.APPLICATION_JSON})
     public Response deleteBooking(@PathParam("id") int id) {
+        try{
         BookingDTO deletedBooking = FACADE.deleteBooking(id);
-        return Response.ok().entity(GSON.toJson(deletedBooking)).build();
+        return Response.ok().entity(GSON.toJson(deletedBooking)).build();}
+        catch (Exception e){
+            return Response.status(400).entity("{\"msg\":\"the server cannot or will not process the request due to something that is perceived to be a client error\"").build();
+        }
     }
 
     //This endpoint is for updating washing assistants for a booking
@@ -59,7 +67,6 @@ public class BookingResource {
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
     public Response updateBooking(@PathParam("id") int id, String booking) {
-        System.out.println(booking);
         BookingDTO bookingDTO = GSON.fromJson(booking, BookingDTO.class);
         List<WashingAssistant> assistants = new ArrayList<>();
         for (WashingAssistantDTO dto : bookingDTO.getWashingAssistants()) {
