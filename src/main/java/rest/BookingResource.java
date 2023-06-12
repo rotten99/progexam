@@ -81,4 +81,12 @@ public class BookingResource {
         BookingDTO updatedBooking = FACADE.updateBookingUserAndCar(id, user, car);
         return Response.ok().entity(GSON.toJson(updatedBooking)).build();
     }
+
+    //This endpoint is for getting all bookings for a specific user
+    @GET
+    @Path("user/{username}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getAllBookingsForUser(@PathParam("username") String username) {
+        return Response.ok().entity(GSON.toJson(FACADE.getAllBookingsForUser(username))).build();
+    }
 }

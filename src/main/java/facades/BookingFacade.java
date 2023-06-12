@@ -131,5 +131,22 @@ public class BookingFacade {
         return new BookingDTO(booking);
     }
 
+    //This method gets all bookings for a specific user
+    public List<BookingDTO> getAllBookingsForUser(String userName){
+        EntityManager em = emf.createEntityManager();
+        ArrayList<BookingDTO> bookingDTOS = new ArrayList<>();
+        try{
+            TypedQuery<Booking> query = em.createQuery("SELECT b FROM Booking b WHERE b.user.userName = :userName", Booking.class);
+            query.setParameter("userName", userName);
+            List<Booking> res = query.getResultList();
+            for(Booking b : res){
+                bookingDTOS.add(new BookingDTO(b));
+            }
+        }finally{
+            em.close();
+        }
+        return bookingDTOS;
+    }
+
 
 }

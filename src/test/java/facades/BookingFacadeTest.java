@@ -102,6 +102,7 @@ public class BookingFacadeTest {
     //This tests the deleteBooking method
     @Test
     public void testDeleteBooking() throws Exception {
+        System.out.println(facade.getAllBookings().size()+"*****************************");
         facade.deleteBooking(booking1.getId());
         assertEquals(1, facade.getAllBookings().size(), "Expects one row in the database");
     }
@@ -124,6 +125,12 @@ public void testUpdateBookingAssistant() throws Exception {
         Booking booking = em.find(Booking.class, booking1.getId());
         assertEquals("user2", booking.getUser().getUserName(), "Expects user2 to be the user");
         assertEquals("xw56804", booking.getCar().getRegistrationNumber(), "Expects xw56804 to be the license plate");
+    }
+
+    //This tests the getBookingsByUser method
+    @Test
+    public void testGetBookingsByUser() throws Exception {
+        assertEquals(1, facade.getAllBookingsForUser(user1.getUserName()).size(), "Expects one row in the database");
     }
 
 }
