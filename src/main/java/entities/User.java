@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@NamedQuery(name = "User.deleteAllRows", query = "DELETE from User ")
+@NamedQuery(name = "User.deleteAll", query = "DELETE from User ")
 @Table(name = "users")
 public class User implements Serializable {
 
@@ -30,6 +30,17 @@ public class User implements Serializable {
     @JoinColumn(name = "role_name", referencedColumnName = "role_name")})
   @ManyToMany
   private List<Role> roleList = new ArrayList<>();
+
+  @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST, orphanRemoval = true)
+  private List<Booking> bookings = new ArrayList<>();
+
+  public List<Booking> getBookings() {
+    return bookings;
+  }
+
+  public void addBookings(Booking booking) {
+    this.bookings.add(booking);
+  }
 
   public List<String> getRolesAsStrings() {
     if (roleList.isEmpty()) {
@@ -87,5 +98,7 @@ public class User implements Serializable {
   public void addRole(Role userRole) {
     roleList.add(userRole);
   }
+
+
 
 }
