@@ -27,7 +27,7 @@ public class BookingFacade {
      * @param _emf
      * @return an instance of this facade class.
      */
-    public static BookingFacade getFacadeExample(EntityManagerFactory _emf) {
+    public static BookingFacade getFacade(EntityManagerFactory _emf) {
         if (instance == null) {
             emf = _emf;
             instance = new BookingFacade();
@@ -59,14 +59,27 @@ public class BookingFacade {
     public BookingDTO createNewBooking(BookingDTO b){
         EntityManager em = emf.createEntityManager();
         List<WashingAssistant> assistants = new ArrayList<>();
+        Car car = null;
+        Booking booking = null;
         for(WashingAssistantDTO wa : b.getWashingAssistants()){
             assistants.add(new WashingAssistant(wa.getName(),wa.getPrimaryLanguage(),wa.getYearsOfExperience(), wa.getPricePrHour()));
         }
-        Car car = new Car(b.getCar().getRegistrationNumber(),b.getCar().getBrand(),b.getCar().getMake(),b.getCar().getYear());
+        try {
+            car = em.find(Car.class, b.getCar().getRegistrationNumber());
+        } catch (Exception e) {
+            System.out.println("Car not found");
+        }
+
         User user = em.find(User.class, b.getUser().getUserName());
-        Booking booking= new Booking(b.getDateAndTime(),b.getDuration(),assistants, car, user);
+
+
         try{
             em.getTransaction().begin();
+            if (car == null){
+                car = new Car(b.getCar().getRegistrationNumber(),b.getCar().getBrand(),b.getCar().getMake(),b.getCar().getYear());
+                em.persist(car);
+            }
+            booking= new Booking(b.getDateAndTime(),b.getDuration(),assistants, car, user);
             em.persist(booking);
             em.getTransaction().commit();
         }finally{
@@ -78,29 +91,29 @@ public class BookingFacade {
     //This method deletes a booking from the database
     public BookingDTO deleteBooking(int id){
         EntityManager em = emf.createEntityManager();
-        BookingDTO bookingDTO = em.find(BookingDTO.class, id);
+        Booking booking = em.find(Booking.class, id);
         try{
             em.getTransaction().begin();
-            em.remove(bookingDTO);
+            em.remove(booking);
             em.getTransaction().commit();
         }finally{
             em.close();
         }
-        return bookingDTO;
+        return new BookingDTO(booking);
     }
 
     //This method updates the assistants for a booking in the database
-    public BookingDTO updateBookingAssistants(int id, List<WashingAssistantDTO> assistants){
+    public BookingDTO updateBookingAssistants(int id, List<WashingAssistant> assistants){
         EntityManager em = emf.createEntityManager();
-        BookingDTO bookingDTO = em.find(BookingDTO.class, id);
+        Booking booking = em.find(Booking.class, id);
         try{
             em.getTransaction().begin();
-            bookingDTO.setWashingAssistants(assistants);
+            booking.setWashingAssistants(assistants);
             em.getTransaction().commit();
         }finally{
             em.close();
         }
-        return bookingDTO;
+        return new BookingDTO(booking);
     }
 
 

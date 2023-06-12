@@ -28,6 +28,8 @@ public class ApplicationConfig extends Application {
         resources.add(UserResource.class);
         resources.add(RenameMeResource.class);
         resources.add(JokesResource.class);
+        resources.add(AssistantResource.class);
+        resources.add(BookingResource.class);
         resources.add(security.JWTAuthenticationFilter.class);
         resources.add(security.LoginEndpoint.class);
         resources.add(security.RolesAllowedFilter.class);

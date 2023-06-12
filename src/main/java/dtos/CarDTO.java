@@ -3,6 +3,7 @@ package dtos;
 import entities.Booking;
 import entities.Car;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CarDTO {
@@ -11,14 +12,14 @@ public class CarDTO {
     private String make;
     private Integer year;
 
-    private List<String> bookings;
+    private List<String> bookings = new ArrayList<>();
 
     public CarDTO(Car car) {
         this.registrationNumber = car.getRegistrationNumber();
         this.brand = car.getBrand();
         this.make = car.getMake();
         this.year = car.getYear();
-        for(Booking booking : car.getBookings()) {
+        for (Booking booking : car.getBookings()) {
             this.bookings.add(booking.toString());
         }
     }

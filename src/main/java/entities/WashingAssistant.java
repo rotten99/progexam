@@ -10,11 +10,8 @@ import java.util.List;
         @NamedQuery(name = "WashingAssistant.deleteAll", query = "delete from WashingAssistant w")
 })
 public class WashingAssistant {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
-    private Integer id;
 
+    @Id
     @Column(name = "name", nullable = false, unique = true, length = 50)
     private String name;
 
@@ -70,13 +67,6 @@ public class WashingAssistant {
         this.name = name;
     }
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public WashingAssistant() {
     }

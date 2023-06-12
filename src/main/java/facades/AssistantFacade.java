@@ -1,8 +1,6 @@
 package facades;
 
-import dtos.BookingDTO;
 import dtos.WashingAssistantDTO;
-import entities.Booking;
 import entities.WashingAssistant;
 
 import javax.persistence.EntityManager;
@@ -25,7 +23,7 @@ public class AssistantFacade {
      * @param _emf
      * @return an instance of this facade class.
      */
-    public static AssistantFacade getFacadeExample(EntityManagerFactory _emf) {
+    public static AssistantFacade getFacade(EntityManagerFactory _emf) {
         if (instance == null) {
             emf = _emf;
             instance = new AssistantFacade();

@@ -3,6 +3,7 @@ package dtos;
 import entities.Booking;
 import entities.WashingAssistant;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class WashingAssistantDTO {
@@ -11,7 +12,7 @@ public class WashingAssistantDTO {
     private Integer yearsOfExperience;
     private Double pricePrHour;
 
-    private List<String> bookings;
+    private List<String> bookings = new ArrayList<>();
 
     public WashingAssistantDTO(WashingAssistant wa){
         this.name = wa.getName();

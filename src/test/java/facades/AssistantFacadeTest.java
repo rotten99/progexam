@@ -1,7 +1,6 @@
 package facades;
 
 import dtos.WashingAssistantDTO;
-import entities.RenameMe;
 import entities.WashingAssistant;
 import org.junit.jupiter.api.*;
 import utils.EMF_Creator;
@@ -21,7 +20,7 @@ public class AssistantFacadeTest {
     @BeforeAll
     public static void setUpClass() {
         emf = EMF_Creator.createEntityManagerFactoryForTest();
-        facade = AssistantFacade.getFacadeExample(emf);
+        facade = AssistantFacade.getFacade(emf);
     }
 
     @AfterAll

@@ -23,17 +23,17 @@ public class Booking {
     private Integer duration;
 
 
-    @ManyToMany(cascade = CascadeType.PERSIST)
+    @ManyToMany()
     @JoinTable(name = "booking_washingAssistants",
             joinColumns = @JoinColumn(name = "booking_id"),
             inverseJoinColumns = @JoinColumn(name = "washingAssistants_id"))
     private List<WashingAssistant> washingAssistants = new ArrayList<>();
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne()
     @JoinColumn(name = "user_user_name")
     private User user;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne()
     @JoinColumn(name = "car_id")
     private Car car;
 

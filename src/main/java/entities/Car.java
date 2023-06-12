@@ -10,11 +10,9 @@ import java.util.List;
         @NamedQuery(name = "Car.deleteAll", query = "delete from Car c")
 })
 public class Car {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
-    private Integer id;
 
+
+    @Id
     @Column(name = "registration_number", nullable = false, unique = true, length = 15)
     private String registrationNumber;
 
@@ -70,14 +68,6 @@ public class Car {
         this.registrationNumber = registrationNumber;
     }
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
     public Car() {
     }
 
@@ -88,13 +78,7 @@ public class Car {
         this.year = year;
     }
 
-    public Car(Integer id, String registrationNumber, String brand, String make, Integer year) {
-        this.id = id;
-        this.registrationNumber = registrationNumber;
-        this.brand = brand;
-        this.make = make;
-        this.year = year;
-    }
+
 
 
 }
