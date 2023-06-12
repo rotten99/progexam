@@ -65,10 +65,11 @@ public class LoginEndpointTest {
     public void setUp() {
         EntityManager em = emf.createEntityManager();
         try {
-            em.getTransaction().begin();
-            //Delete existing users and roles to get a "fresh" database
             UserFacade userFacade = UserFacade.getUserFacade(emf);
             userFacade.truncateTables();
+            em.getTransaction().begin();
+            //Delete existing users and roles to get a "fresh" database
+
 
             Role userRole = new Role("user");
             Role adminRole = new Role("admin");

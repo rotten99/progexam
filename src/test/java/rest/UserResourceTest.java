@@ -81,9 +81,9 @@ public class UserResourceTest {
         u1 = new User("user", "123", userList);
         u2 = new User("admin", "123", adminList);
         try {
+            UserFacade uf = UserFacade.getUserFacade(emf);
+            uf.truncateTables();
             em.getTransaction().begin();
-            em.createQuery("delete from Role").executeUpdate();
-            em.createNamedQuery("User.deleteAll").executeUpdate();
             em.persist(uRole);
             em.persist(aRole);
             em.persist(u1);
