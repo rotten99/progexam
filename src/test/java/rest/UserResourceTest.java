@@ -81,7 +81,7 @@ public class UserResourceTest {
         u2 = new User("admin", "123",adminList);
         try {
             em.getTransaction().begin();
-            em.createNamedQuery("User.deleteAllRows").executeUpdate();
+            em.createNamedQuery("User.deleteAll").executeUpdate();
             em.createQuery("delete from Role").executeUpdate();
             em.persist(uRole);
             em.persist(aRole);
