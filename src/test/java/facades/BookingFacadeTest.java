@@ -52,17 +52,9 @@ public class BookingFacadeTest {
         EntityManager em = emf.createEntityManager();
 
         try {
+            UserFacade userFacade = UserFacade.getUserFacade(emf);
+            userFacade.truncateTables();
             em.getTransaction().begin();
-
-            // Delete bookings first to avoid integrity constraint violation
-            em.createNamedQuery("Booking.deleteAll").executeUpdate();
-
-            // Delete other entities
-            em.createNamedQuery("Car.deleteAll").executeUpdate();
-            em.createNamedQuery("WashingAssistant.deleteAll").executeUpdate();
-            em.createNamedQuery("Role.deleteAll").executeUpdate();
-            em.createNamedQuery("User.deleteAll").executeUpdate();
-
             em.persist(userRole);
             em.persist(user1);
             em.persist(user2);
@@ -80,7 +72,6 @@ public class BookingFacadeTest {
             em.close();
         }
     }
-
 
 
     @AfterEach
@@ -139,4 +130,9 @@ public class BookingFacadeTest {
         assertEquals(1, facade.getAllBookingsForUser(user1.getUserName()).size(), "Expects one row in the database");
     }
 
+    //This tests the getAllCars method
+    @Test
+    public void testGetAllCars() throws Exception {
+        assertEquals(2, facade.getAllCars().size(), "Expects two rows in the database");
+    }
 }

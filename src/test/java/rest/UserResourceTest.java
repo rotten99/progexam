@@ -96,13 +96,25 @@ public class UserResourceTest {
 
     //This test, tests the get all users method in the UserResource class
     @Test
-    public void getAllUsers() throws Exception {
+    public void getUsers() throws Exception {
         given()
                 .contentType("application/json")
                 .get("/info/all").then()
                 .assertThat()
                 .statusCode(HttpStatus.OK_200.getStatusCode())
                 .body(equalTo("[2]"));
+
+    }
+
+    // This tests get All users endpoint
+    @Test
+    public void getAllUsers() throws Exception {
+        given()
+                .contentType("application/json")
+                .get("/info/allusers").then()
+                .assertThat()
+                .statusCode(HttpStatus.OK_200.getStatusCode())
+                .body("size()", equalTo(2));
 
     }
 

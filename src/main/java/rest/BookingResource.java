@@ -59,6 +59,7 @@ public class BookingResource {
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
     public Response updateBooking(@PathParam("id") int id, String booking) {
+        System.out.println(booking);
         BookingDTO bookingDTO = GSON.fromJson(booking, BookingDTO.class);
         List<WashingAssistant> assistants = new ArrayList<>();
         for (WashingAssistantDTO dto : bookingDTO.getWashingAssistants()) {
@@ -88,5 +89,13 @@ public class BookingResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAllBookingsForUser(@PathParam("username") String username) {
         return Response.ok().entity(GSON.toJson(FACADE.getAllBookingsForUser(username))).build();
+    }
+
+    //This endpoint is for the getAllCars method
+    @GET
+    @Path("cars")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getAllCars() {
+        return Response.ok().entity(GSON.toJson(FACADE.getAllCars())).build();
     }
 }

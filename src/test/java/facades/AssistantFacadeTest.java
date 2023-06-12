@@ -34,8 +34,9 @@ public class AssistantFacadeTest {
     public void setUp() {
         EntityManager em = emf.createEntityManager();
         try {
+            UserFacade userFacade = UserFacade.getUserFacade(emf);
+            userFacade.truncateTables();
             em.getTransaction().begin();
-            em.createNamedQuery("WashingAssistant.deleteAll").executeUpdate();
             em.persist(new WashingAssistant("Hans", "Danish", 2, 100.00));
             em.persist(new WashingAssistant("Jens", "Danish", 2, 150.50));
             em.getTransaction().commit();

@@ -2,6 +2,7 @@ package rest;
 
 import entities.Role;
 import entities.User;
+import facades.UserFacade;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.parsing.Parser;
@@ -66,8 +67,8 @@ public class LoginEndpointTest {
         try {
             em.getTransaction().begin();
             //Delete existing users and roles to get a "fresh" database
-            em.createQuery("delete from User").executeUpdate();
-            em.createQuery("delete from Role").executeUpdate();
+            UserFacade userFacade = UserFacade.getUserFacade(emf);
+            userFacade.truncateTables();
 
             Role userRole = new Role("user");
             Role adminRole = new Role("admin");

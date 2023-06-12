@@ -5,6 +5,7 @@ import entities.*;
 import security.errorhandling.AuthenticationException;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -85,9 +86,34 @@ public class UserFacade {
     }
 
 
+    public List<UserDTO> getAllUsers() {
+        ArrayList<UserDTO> userDTOList = new ArrayList<>();
+        EntityManager em = emf.createEntityManager();
+        TypedQuery<User> query = em.createQuery("SELECT u FROM User u", User.class);
+        List<User> users = query.getResultList();
+        for (User user : users) {
+            userDTOList.add(new UserDTO(user));
+        }
+        return UserDTO.getDtos(users);
+    }
 
+    public void truncateTables() {
+        EntityManager em = emf.createEntityManager();
+        em.getTransaction().begin();
 
+        try {
+            em.createNamedQuery("Booking.deleteAll").executeUpdate();
+            em.createNamedQuery("Car.deleteAll").executeUpdate();
+            em.createNamedQuery("Role.deleteAll").executeUpdate();
+            em.createNamedQuery("User.deleteAll").executeUpdate();
+            em.createNamedQuery("WashingAssistant.deleteAll").executeUpdate();
+        } catch (NullPointerException e) {
+            System.out.println("Error in truncateTables: " + e.getMessage());
+        }
 
+        em.getTransaction().commit();
+        em.close();
+    }
 }
 
 

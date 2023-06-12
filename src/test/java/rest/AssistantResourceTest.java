@@ -77,12 +77,9 @@ public class AssistantResourceTest {
         w1.setBookings(bookings);
         w2.setBookings(bookings);
         try {
+            UserFacade userFacade = UserFacade.getUserFacade(emf);
+            userFacade.truncateTables();
             em.getTransaction().begin();
-            em.createNamedQuery("WashingAssistant.deleteAll").executeUpdate();
-            em.createNamedQuery("Booking.deleteAll").executeUpdate();
-            em.createNamedQuery("Car.deleteAll").executeUpdate();
-            em.createNamedQuery("Role.deleteAll").executeUpdate();
-            em.createNamedQuery("User.deleteAll").executeUpdate();
             em.persist(w1);
             em.persist(w2);
             em.getTransaction().commit();

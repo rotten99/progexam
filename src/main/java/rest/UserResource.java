@@ -89,9 +89,13 @@ public class UserResource {
         return Response.ok().entity(udto).build();
     }
 
-
-
-
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("allusers")
+    public Response getAllUsers(){
+        List<UserDTO> users = FACADE.getAllUsers();
+        return Response.ok().entity(GSON.toJson(users)).build();
+    }
 
 
 

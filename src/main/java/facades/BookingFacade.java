@@ -1,6 +1,7 @@
 package facades;
 
 import dtos.BookingDTO;
+import dtos.CarDTO;
 import dtos.WashingAssistantDTO;
 import entities.Booking;
 import entities.Car;
@@ -149,5 +150,20 @@ public class BookingFacade {
         return bookingDTOS;
     }
 
+    //This method gets all cars from the database
+    public List<CarDTO> getAllCars(){
+        EntityManager em = emf.createEntityManager();
+        ArrayList<CarDTO> cars = new ArrayList<>();
+        try{
+            TypedQuery<Car> query = em.createQuery("SELECT c FROM Car c", Car.class);
+            List<Car> res = query.getResultList();
+            for(Car c : res){
+                cars.add(new CarDTO(c));
+            }
+        }finally{
+            em.close();
+        }
+        return cars;
+    }
 
 }

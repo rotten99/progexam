@@ -85,12 +85,9 @@ public class BookingResourceTest {
 
 
         try {
+            UserFacade userFacade = UserFacade.getUserFacade(emf);
+            userFacade.truncateTables();
             em.getTransaction().begin();
-            em.createNamedQuery("WashingAssistant.deleteAll").executeUpdate();
-            em.createNamedQuery("Booking.deleteAll").executeUpdate();
-            em.createNamedQuery("Car.deleteAll").executeUpdate();
-            em.createNamedQuery("Role.deleteAll").executeUpdate();
-            em.createNamedQuery("User.deleteAll").executeUpdate();
             em.persist(userRole);
             em.persist(user1);
             em.persist(user2);
@@ -111,7 +108,7 @@ public class BookingResourceTest {
 
     //This tests the get all bookings end point in booking resource
     @Test
-    public void getAllAssistants() throws Exception {
+    public void getAllBookings() throws Exception {
         given()
                 .contentType("application/json")
                 .get("/booking/all").then()
@@ -152,7 +149,7 @@ public class BookingResourceTest {
 
     //This tests the update washing assistant for a booking end point in booking resource
     @Test
-    public void updateWashingAssistant() throws Exception {
+    public void updateBookings() throws Exception {
         List<WashingAssistant> waList = new ArrayList<>();
         ArrayList<WashingAssistant> waList2 = new ArrayList<>();
         waList2.add(wa1);
@@ -200,6 +197,17 @@ public class BookingResourceTest {
                 .body("size()", equalTo(1))
                 .body("[0].car.registrationNumber", equalTo("yz31803"));
 
+    }
+
+    //This tests the getAllCars endpoint
+    @Test
+    public void getAllCars() throws Exception {
+        given()
+                .contentType("application/json")
+                .get("/booking/cars").then()
+                .assertThat()
+                .statusCode(HttpStatus.OK_200.getStatusCode())
+                .body("size()", equalTo(2));
     }
 
 }
